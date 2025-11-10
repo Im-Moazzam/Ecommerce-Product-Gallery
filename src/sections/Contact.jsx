@@ -7,15 +7,31 @@ function Contact() {
     message: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted: ", formData);
-    setFormData({ name: "", email: "", message: "" });
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("Form Submitted: ", formData);
+      setFormData({ name: "", email: "", message: "" });
+      setErrors({});
+    } else {
+      setErrors(validationErrors);
+    }
   };
 
   return (
@@ -34,8 +50,13 @@ function Contact() {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+              errors.name ? "border-red-500" : "border-gray-300"
+            }`}
           />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -48,8 +69,13 @@ function Contact() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            }`}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
@@ -62,8 +88,13 @@ function Contact() {
             value={formData.message}
             onChange={handleChange}
             rows="5"
-            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+              errors.message ? "border-red-500" : "border-gray-300"
+            }`}
           />
+          {errors.message && (
+            <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+          )}
         </div>
 
         <button
