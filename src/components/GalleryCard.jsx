@@ -3,12 +3,12 @@ import React from "react";
 function GalleryCard(props) {
   return (
     <div className="border rounded-lg max-w-xs shadow-md hover:shadow-lg transition-transform hover:-translate-y-1 mx-auto">
-      {/* Image wrapper with white background */}
-      <div className="bg-white p-4 rounded-t-lg">
+      {/* Image wrapper with fixed height */}
+      <div className="bg-white p-4 rounded-t-lg flex items-center justify-center h-64">
         <img
           src={props.image}
           alt={props.title}
-          className="w-full object-contain"
+          className="max-h-full max-w-full object-contain"
         />
       </div>
 
